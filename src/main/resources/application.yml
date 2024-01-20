@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: "${ACTIVE_PROFILE:dev}"
+  application:
+    name: News-Parser
+  jackson:
+    serialization:
+      indent-output: true
