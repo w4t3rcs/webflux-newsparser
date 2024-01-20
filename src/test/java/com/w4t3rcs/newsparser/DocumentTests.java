@@ -1,6 +1,6 @@
 package com.w4t3rcs.newsparser;
 
-import com.w4t3rcs.newsparser.model.service.parser.DocumentToRankTitleParserService;
+import com.w4t3rcs.newsparser.model.service.parser.HTMLToNewsEntityParserService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,7 +35,7 @@ class DocumentTests {
     @Test
     public void test() {
 //        System.out.println(document.toString());
-        var bean = applicationContext.getBean(DocumentToRankTitleParserService.class);
+        var bean = applicationContext.getBean(HTMLToNewsEntityParserService.class);
         bean.parse(document)
                 .subscribe(System.out::println);
     }

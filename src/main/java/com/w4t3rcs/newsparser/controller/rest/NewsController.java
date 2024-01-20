@@ -1,36 +1,33 @@
 package com.w4t3rcs.newsparser.controller.rest;
 
 import com.w4t3rcs.newsparser.model.common.transformer.Parser;
+import com.w4t3rcs.newsparser.model.entity.News;
 import lombok.Data;
 import org.jsoup.nodes.Document;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
-
 @Data
+@CrossOrigin("http://localhost:8080")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class NewsController {
     private final Document document;
-    private final Parser<Flux<Map<String, String>>, Document> reactiveParser;
+    private final Parser<Flux<News>, Document> htmlToNewsParser;
 
     @GetMapping
-    public Flux<Map<String, String>> getNews() {
+    public Flux<News> getNews() {
         return getParsedToFlux();
     }
 
     @GetMapping("{id}")
-    public Mono<Map<String, String>> getNews(@PathVariable Integer id) {
-        return getParsedToFlux().elementAt(id);
+    public Mono<News> getNews(@PathVariable Integer id) {
+        return getParsedToFlux().elementAt(id - 1);
     }
 
-    public Flux<Map<String, String>> getParsedToFlux() {
-        return reactiveParser.parse(document);
+    public Flux<News> getParsedToFlux() {
+        return htmlToNewsParser.parse(document);
     }
 }
